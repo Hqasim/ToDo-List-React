@@ -4,6 +4,12 @@ import Tasks from './tasks';
 function Form() {
     // State and Hook
     const [tasks, setTasks] = useState([]);
+    const [task, clearTask] = useState('');
+
+    // Updates user input dynamically to input field value property
+    const handleClear = event => {
+        clearTask(event.target.value);
+    }
 
     // Submit form event handler
     const handleSubmit = (event) => {
@@ -18,6 +24,8 @@ function Form() {
             // Update tasks list
             setTasks(tasks => [...tasks, newTask]);
         }
+        // Clear input field
+        clearTask('');
     };
 
     // Delete event handler
@@ -54,7 +62,8 @@ function Form() {
             <form onSubmit={handleSubmit}>
                 <div className="input-group p-2">
                     <span className="input-group-text">Todo</span>
-                    <input type="text" className="form-control" placeholder="Task Name" />
+                    <input type="text" className="form-control"
+                        placeholder="Task Name" value={task} onChange={handleClear} />
                     <input className="btn btn-primary" type="submit" />
                 </div>
             </form>

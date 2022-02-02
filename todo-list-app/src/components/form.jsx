@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Tasks from './tasks';
+import { useSelector, useDispatch } from 'react-redux' // Redux - Dependency
+import store from '../redux/store'; // Redux - Store Import
 
 function Form() {
     // State and Hook
@@ -26,6 +28,15 @@ function Form() {
         }
         // Clear input field
         clearTask('');
+        // Testing - Redux
+        store.dispatch({
+            type: 'ADD',
+            payload: {
+                description: newTask,
+                status: true
+            }
+        });
+
     };
 
     // Delete event handler
@@ -39,6 +50,15 @@ function Form() {
         }
         // Update state via hooks
         setTasks(() => [...updatedTask]);
+
+        // Testing - Redux
+        store.dispatch({
+            type: 'DELETE',
+            payload: {
+                id: 2
+            }
+        });
+
     };
 
     // Edit event handler
@@ -72,7 +92,7 @@ function Form() {
                 handleDelete={handleDelete}
                 handleEdit={handleEdit}
             />
-
+            <br></br>
         </React.Fragment>
     );
 }

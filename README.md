@@ -1,2 +1,2 @@
-# ToDo-List-React
-ToDo List Web App - React
+# ToDo-List-React-Redux
+ToDo List Web App - React - Redux

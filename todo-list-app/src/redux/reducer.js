@@ -24,7 +24,12 @@ const tasks = (state = [], action) => {
             editedState[objIndex].description = action.payload.description
 
             return [...editedState];
+        case 'STATUS':
+            let editedStateStatus = state
+            let objIndexStatus = editedStateStatus.findIndex(obj => obj.id == action.payload.id);
 
+            editedStateStatus[objIndexStatus].status = !editedStateStatus[objIndexStatus].status
+            return [...editedStateStatus];
         default:
             return state
     }

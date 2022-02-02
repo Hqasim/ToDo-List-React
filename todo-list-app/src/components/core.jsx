@@ -20,7 +20,7 @@ function Core() {
             type: 'ADD',
             payload: {
                 description: userInput,
-                status: true
+                status: false
             }
         });
         // Reads store contents and appends to local state
@@ -55,7 +55,20 @@ function Core() {
         });
 
         // Reads store contents and appends to local state
-        setTasks(store.getState())
+        setTasks(store.getState());
+    }
+
+    // Toggle Status
+    const toggleStatus = (task) => {
+        store.dispatch({
+            type: 'STATUS',
+            payload: {
+                id: task.id,
+            }
+        });
+
+        // Reads store contents and appends to local state
+        setTasks(store.getState());
     }
 
     // Display Tasks
@@ -65,6 +78,9 @@ function Core() {
                 <span className="input-group-text bg-warning text-dark">{task.description}</span>
                 <button onClick={() => handleDelete(task)} className='btn btn-danger btn-sm'>Delete</button>
                 <button onClick={() => handleEdit(task)} className='btn btn-info btn-sm'>Edit</button>
+                <span className='input-group-text' onClick={() => toggleStatus(task)}>Toggle Status</span>
+                <span className='input-group-text bg-light text-dark'>{task.status ? 'Completed' : 'Pending'}</span>
+
             </div>
         </div >
     );

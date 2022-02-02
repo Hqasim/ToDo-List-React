@@ -2,8 +2,13 @@ import React, { useState, useEffect } from 'react';
 import store from '../redux/store'; // Redux - Store Import
 
 function Core() {
-    // Hooks
-    const [tasks, setTasks] = useState([]);
+    const [tasks, setTasks] = useState([]); // Hook for Displaying Tasks on UI
+    const [taskInput, setTaskInput] = useState(''); // Hook used to read and clear the input task
+
+    // Handle Input Field Clear Upon Submit
+    const handleClear = event => {
+        setTaskInput(event.target.value);
+    }
 
     // Handle Submit Event - Form
     const handleSubmit = event => {
@@ -20,6 +25,8 @@ function Core() {
         });
         // Reads store contents and appends to local state
         setTasks(store.getState())
+        // Clears user input
+        setTaskInput('');
     }
 
     // Handle Delete Event - Form
@@ -62,7 +69,7 @@ function Core() {
         </div >
     );
 
-    // Logging - Redux
+    // Logging - Redux Store State upon React DOM Rerender
     useEffect(() => {
         // Log State from Store - Redux
         console.log('Store: ', store.getState());
@@ -70,12 +77,11 @@ function Core() {
 
     return (
         <React.Fragment>
-            <h1>To Do App</h1>
             <form onSubmit={handleSubmit}>
                 <div className="input-group p-2">
                     <span className="input-group-text">Todo</span>
                     <input type="text" className="form-control"
-                        placeholder="Task Name" />
+                        placeholder="Task Name" value={taskInput} onChange={handleClear} />
                     <input className="btn btn-primary" type="submit" />
                 </div>
             </form>

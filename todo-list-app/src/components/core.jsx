@@ -5,11 +5,6 @@ function Core() {
     const [tasks, setTasks] = useState([]); // Hook for Displaying Tasks on UI
     const [taskInput, setTaskInput] = useState(''); // Hook used to read and clear the input task
 
-    // Handle Input Field Clear Upon Submit
-    const handleClear = event => {
-        setTaskInput(event.target.value);
-    }
-
     // Handle Submit Event - Form
     const handleSubmit = event => {
         // Stops page reload
@@ -97,7 +92,8 @@ function Core() {
                 <div className="input-group p-2">
                     <span className="input-group-text">Todo</span>
                     <input type="text" className="form-control"
-                        placeholder="Task Name" value={taskInput} onChange={handleClear} />
+                        placeholder="Task Name" value={taskInput} onChange=
+                        {event => setTaskInput(event.target.value)} />
                     <input className="btn btn-primary" type="submit" />
                 </div>
             </form>

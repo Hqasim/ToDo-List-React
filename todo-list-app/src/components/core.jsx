@@ -5,6 +5,7 @@ import { add, del, edit, status } from '../redux/tasksSlice';
 
 function Core() {
     const [taskInput, setTaskInput] = useState(''); // Hook used to read and clear the input task
+    const [editTask, setEditTask] = useState(''); // Hook used to read editing task input field
     const dispatch = useDispatch() // Redux - Hook to submit data to store
     const tasksStore = useSelector(state => state.tasks) // Redux - Hook to read store data
     console.log('Store Tasks:', tasksStore); // Console Logs store tasks data upon DOM re-render
@@ -30,9 +31,12 @@ function Core() {
 
     // Handle Edit Event - Form
     const handleEdit = task => {
-        // call prompt() with custom message to get user input from alert-like dialog
-        const inputEdit = prompt('Update Task');
-        dispatch(edit({ id: task.id, description: inputEdit }))
+        setEditTask(task.description)
+        if (task.isEditing) {
+            dispatch(edit({ id: task.id, description: editTask }))
+        } else {
+            dispatch(edit({ id: task.id }))
+        }
     }
 
     // Toggle Status
@@ -40,15 +44,27 @@ function Core() {
         dispatch(status({ id: task.id }))
     }
 
+    // JSX for task strike through
+    const taskText = (task) => {
+        return (task.status ? <del>{task.description}</del> : task.description);
+    }
+
     // Display Tasks - Reads form store via useSelector Hook
     const displayTasks = tasksStore.map(task =>
         <div className='p-2' key={task.id}>
             <div className="input-group p-1">
-                <span className="input-group-text bg-warning text-dark">{task.description}</span>
+
+                {task.isEditing ?
+                    <input type="text" className="form-control"
+                        placeholder="Edit Task" value={editTask} onChange=
+                        {event => setEditTask(event.target.value)} /> :
+                    <span className="input-group-text bg-warning text-dark">{taskText(task)}</span>}
+
                 <button onClick={() => handleDelete(task)} className='btn btn-danger btn-sm'>Delete</button>
-                <button onClick={() => handleEdit(task)} className='btn btn-info btn-sm'>Edit</button>
+                <button onClick={() => handleEdit(task)} className='btn btn-info btn-sm'>
+                    {task.isEditing ? 'Submit Edit' : 'Edit'}
+                </button>
                 <span className='input-group-text' onClick={() => toggleStatus(task)}>Toggle Status</span>
-                <span className='input-group-text bg-light text-dark'>{task.status ? 'Completed' : 'Pending'}</span>
 
             </div>
         </div >

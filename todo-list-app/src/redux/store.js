@@ -1,8 +1,8 @@
-import { createStore } from 'redux'; // Redux Dependency
-import tasks from './reducer';
+import { configureStore } from '@reduxjs/toolkit'
+import tasksReducer from './tasksSlice'
 
-// Create Redux Store
-const store = createStore(tasks);
-
-// Exporting Store
-export default store;
+export default configureStore({
+    reducer: {
+        tasks: tasksReducer
+    }
+})

@@ -1,73 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import store from '../redux/store'; // Redux - Store Import
+import { useSelector, useDispatch } from 'react-redux';
+import { add, del, edit, status } from '../redux/tasksSlice';
 
 function Core() {
-    const [tasks, setTasks] = useState([]); // Hook for Displaying Tasks on UI
     const [taskInput, setTaskInput] = useState(''); // Hook used to read and clear the input task
+    const dispatch = useDispatch() // Redux - Hook to submit data to store
+    const tasksStore = useSelector(state => state.tasks) // Redux - Hook to read store data
+    console.log('Store Tasks:', tasksStore); // Console Logs store tasks data upon DOM re-render
 
     // Handle Submit Event - Form
-    const handleSubmit = event => {
-        // Stops page reload
-        event.preventDefault();
-        // Adds user input to store
-        const userInput = event.target[0].value;
-        store.dispatch({
-            type: 'ADD',
-            payload: {
-                description: userInput,
-                status: false
-            }
-        });
-        // Reads store contents and appends to local state
-        setTasks(store.getState())
-        // Clears user input
-        setTaskInput('');
+    const handleSubmit = task => {
+        task.preventDefault(); // Stops page reload
+        setTaskInput('');// Clears user input
+        // Add task to state - ID incrementing handled by reducer action
+        const userInput = task.target[0].value;
+        dispatch(add(
+            { description: userInput, status: false }
+        ))
     }
 
     // Handle Delete Event - Form
     const handleDelete = task => {
-
-        store.dispatch({
-            type: 'DELETE',
-            payload: {
-                id: task.id
-            }
-        });
-        // Reads store contents and appends to local state
-        setTasks(store.getState())
+        // Delete selected task
+        dispatch(del(
+            { id: task.id }
+        ))
     }
 
     // Handle Edit Event - Form
     const handleEdit = task => {
         // call prompt() with custom message to get user input from alert-like dialog
         const inputEdit = prompt('Update Task');
-        store.dispatch({
-            type: 'EDIT',
-            payload: {
-                id: task.id,
-                description: inputEdit
-            }
-        });
-
-        // Reads store contents and appends to local state
-        setTasks(store.getState());
+        dispatch(edit({ id: task.id, description: inputEdit }))
     }
 
     // Toggle Status
     const toggleStatus = (task) => {
-        store.dispatch({
-            type: 'STATUS',
-            payload: {
-                id: task.id,
-            }
-        });
-
-        // Reads store contents and appends to local state
-        setTasks(store.getState());
+        dispatch(status({ id: task.id }))
     }
 
-    // Display Tasks
-    const displayTasks = tasks.map(task =>
+    // Display Tasks - Reads form store via useSelector Hook
+    const displayTasks = tasksStore.map(task =>
         <div className='p-2' key={task.id}>
             <div className="input-group p-1">
                 <span className="input-group-text bg-warning text-dark">{task.description}</span>
@@ -79,12 +53,6 @@ function Core() {
             </div>
         </div >
     );
-
-    // Logging - Redux Store State upon React DOM Rerender
-    useEffect(() => {
-        // Log State from Store - Redux
-        console.log('Store: ', store.getState());
-    });
 
     return (
         <React.Fragment>

@@ -1,11 +1,18 @@
 import React from 'react';
-import Core from './components/core';
-
+import Todo from './components/todo';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom' // React Router
+import Home from './components/home';
+import NavBar from './components/navbar';
 function App() {
     return (
         <React.Fragment>
-            <h1 className='p-2'>Todo List App</h1>
-            <Core />
+            <BrowserRouter>
+                <NavBar />
+                <Routes>
+                    <Route path='/' element={<Home />} />
+                    <Route path='todo' element={<Todo />} />
+                </Routes>
+            </BrowserRouter>
         </React.Fragment>
     );
 }

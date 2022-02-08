@@ -3,7 +3,7 @@ import store from '../redux/store'; // Redux - Store Import
 import { useSelector, useDispatch } from 'react-redux';
 import { add, del, edit, status } from '../redux/tasksSlice';
 
-function Core() {
+function Todo() {
     const [taskInput, setTaskInput] = useState(''); // Hook used to read and clear the input task
     const [editTask, setEditTask] = useState(''); // Hook used to read editing task input field
     const dispatch = useDispatch() // Redux - Hook to submit data to store
@@ -86,4 +86,4 @@ function Core() {
     );
 }
 
-export default Core;
+export default Todo;

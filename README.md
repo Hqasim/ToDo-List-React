@@ -1,6 +1,6 @@
-# ToDo-List-React-Redux
+# Todo List React
 
-List down your tasks with this responsive Todo List application built using react js framework with reduc state management
+List down your tasks with this responsive Todo List application built using react js framework and redux state management
 
 ## How to use
 

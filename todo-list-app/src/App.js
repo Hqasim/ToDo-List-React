@@ -1,20 +1,19 @@
-import React from 'react';
-import Todo from './components/todo';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom' // React Router
-import Home from './components/home';
-import NavBar from './components/navbar';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./components/home/home";
+import NavBar from "./components/navbar/navbar";
+
 function App() {
-    return (
-        <React.Fragment>
-            <BrowserRouter>
-                <NavBar />
-                <Routes>
-                    <Route path='/' element={<Home />} />
-                    <Route path='todo' element={<Todo />} />
-                </Routes>
-            </BrowserRouter>
-        </React.Fragment>
-    );
+  return (
+    <React.Fragment>
+      <BrowserRouter>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </BrowserRouter>
+    </React.Fragment>
+  );
 }
 
 export default App;
